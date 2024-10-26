@@ -28,74 +28,91 @@ const ResetPassword = () => {
     return () => clearInterval(interval);
   }, [otpSent, timer]);
 
+  
   const handleSendOtp = async () => {
     if (!email) {
-      setError('Email is required');
-      return;
+        setError('Email is required');
+        return;
     }
-    try {
-      const response = await fetch('http://localhost:3000/send-otp', { // Adjust URL as needed
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message);
-      setOtpSent(true);
-      setTimer(120); // Reset timer
-      setError('');
-    } catch (err) {
-      setError(err.message);
-    }
-  };
 
-  const handleVerifyOtp = async () => {
-    if (!otp) {
+    const token = localStorage.getItem('token'); // Adjust this to how you're storing your token
+
+    try {
+        const response = await fetch('http://localhost:3000/send-otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+        });
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message);
+        setOtpSent(true);
+        setTimer(120); // Reset timer
+        setError('');
+    } catch (err) {
+        setError(err.message);
+    }
+};
+
+
+const handleVerifyOtp = async () => {
+  if (!otp) {
       setError('OTP is required');
       return;
-    }
-    try {
-      const response = await fetch('http://localhost:3000/verify-otp', { // Adjust URL as needed
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, otp }),
+  }
+
+  const token = localStorage.getItem('token'); // Retrieve the token from local storage (or wherever you store it)
+
+  try {
+      const response = await fetch('http://localhost:3000/verify-otp', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, otp }),
       });
+
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
-      setShowModal(true);
-      setError('');
-    } catch (err) {
-      setError(err.message);
-    }
-  };
 
-  const handleResetPassword = async () => {
-    if (!newPassword) {
+      // OTP verification was successful
+      setShowModal(true);
+      setError(''); // Clear any previous errors
+  } catch (err) {
+      setError(err.message); // Display the error message to the user
+  }
+};
+
+
+const handleResetPassword = async () => {
+  if (!newPassword) {
       setError('New password is required');
       return;
-    }
-    try {
-      const response = await fetch('http://localhost:3000/reset-password', { // Adjust URL as needed
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, newPassword }),
+  }
+
+  const token = localStorage.getItem('token'); // Retrieve the token from local storage (or wherever you store it)
+
+  try {
+      const response = await fetch('http://localhost:3000/reset-password', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, newPassword }),
       });
+
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
-      alert('Password reset successfully Now you can login with new password!');
-      navigate("/auth/applicant-login"); // Navigate to the About page
 
-      // Optionally redirect the user or reset state
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+      alert('Password reset successfully! Now you can log in with your new password!');
+      navigate("/auth/applicant-login"); // Navigate to the login page
+  } catch (err) {
+      setError(err.message); // Display the error message to the user
+  }
+};
+
 
   const handleResendOtp = () => {
     setIsResendEnabled(false);

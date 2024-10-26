@@ -45,7 +45,7 @@ const OrganizationLogin = () => {
       // Store the token (you can also use localStorage or context for auth)
       localStorage.setItem('token', data.token);
       alert("JWT token saved in database");
-      // navigate('/dashboard'); // Navigate to dashboard after successful login
+      navigate("/admin/add-job"); // Navigate to dashboard after successful login
 
     } catch (error) {
       setError(error.message);

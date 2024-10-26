@@ -26,36 +26,32 @@ const AddJob = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem('token');
+  
     try {
       const response = await fetch('http://localhost:3000/add-job', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Move this inside the headers object
+        },
         body: JSON.stringify(jobData),
       });
-
+  
       const data = await response.json();
       if (response.ok) {
         alert('Job added successfully!');
         setShowModal(false);
         setJobData({
-          title: '',
-          description: '',
-          employmentType: 'Full-time',
-          experience: '1',
-          role: '',
-          skills: '',
-          requirements: '',
-          location: '',
-          validTill: '',
-          salary: '',
-          status: 'Active',
+          // ... existing reset fields ...
         });
+        // Consider adding a function to refresh the job list here
       } else {
-        alert(data.message);
+        alert(data.message || 'Error adding job');
       }
     } catch (error) {
       console.error('Error adding job:', error);
-      alert('Error adding job');
+      alert('Error adding job. Please try again.');
     }
   };
 

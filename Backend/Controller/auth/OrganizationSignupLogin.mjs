@@ -2,6 +2,7 @@
 import bcrypt from 'bcryptjs'; // For hashing passwords
 import jwt from 'jsonwebtoken'; // For creating tokens
 import {OrganizationUserData} from '../../Models/index.Models.mjs'; // Import the User model
+import { GenerateOrganizationUserToken } from '../../Middleware/jwt.Middleware.mjs';
 
 // Define the signup function
 export const OrganizationSignup = async (req, res) => {
@@ -34,8 +35,8 @@ export const OrganizationSignup = async (req, res) => {
 
         await newUser.save();
 
-        // Optional: Generate JWT token upon registration
-        const token = jwt.sign({ userId: newUser._id }, 'SatyamBoss', { expiresIn: '1h' });
+        // Optional: Generate JWT token upon registration//OrganizationUserToken
+        const token = GenerateOrganizationUserToken({ userId: newUser._id });
 
         res.status(201).json({ message: 'User registered successfully', token });
     } catch (error) {
@@ -67,7 +68,7 @@ export const OrganizationLogin = async (req, res) => {
         }
 
         // Generate JWT token upon successful login
-        const token = jwt.sign({ userId: user._id }, 'SatyamLegend', { expiresIn: '1h' });
+        const token = GenerateOrganizationUserToken({ userId: user._id });
 
         res.status(200).json({ message: 'Login successful', token });
     } catch (error) {

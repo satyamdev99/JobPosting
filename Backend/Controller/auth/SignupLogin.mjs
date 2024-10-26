@@ -1,11 +1,11 @@
 // auth/SignupLogin.mjs
 import express from 'express';
 import bcrypt from 'bcryptjs'; // For hashing passwords
-import jwt from 'jsonwebtoken'; // For creating tokens
-import {UserData} from '../../Models/index.Models.mjs'; // Import the User model
+import { UserData } from '../../Models/index.Models.mjs'; // Import the User model
+import { GenerateUserToken } from '../../Middleware/index.MiddleWare.mjs'; // Import your token generation function
 
 // Define the signup function
-export const Signup = async (req, res) => {
+ const Signup = async (req, res) => {
     const { firstName, lastName, email, country, mobile, password } = req.body;
 
     try {
@@ -35,8 +35,8 @@ export const Signup = async (req, res) => {
 
         await newUser.save();
 
-        // Optional: Generate JWT token upon registration
-        const token = jwt.sign({ userId: newUser._id }, 'SatyamLegend', { expiresIn: '1h' });
+        // Generate JWT token upon registration using the imported function
+        const token = GenerateUserToken({ userId: newUser._id });
 
         res.status(201).json({ message: 'User registered successfully', token });
     } catch (error) {
@@ -46,7 +46,7 @@ export const Signup = async (req, res) => {
 };
 
 // Define the login function
-export const Login = async (req, res) => {
+ const Login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
@@ -67,8 +67,8 @@ export const Login = async (req, res) => {
             return res.status(400).json({ message: 'Invalid email or password' });
         }
 
-        // Generate JWT token upon successful login
-        const token = jwt.sign({ userId: user._id }, 'SatyamLegend', { expiresIn: '1h' });
+        // Generate JWT token upon successful login using the imported function
+        const token = GenerateUserToken({ userId: user._id });
 
         res.status(200).json({ message: 'Login successful', token });
     } catch (error) {
@@ -78,3 +78,4 @@ export const Login = async (req, res) => {
 };
 
 // Export both signup and login functions
+export { Signup, Login };

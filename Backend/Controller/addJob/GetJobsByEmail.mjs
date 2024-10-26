@@ -1,17 +1,14 @@
-import jwt from 'jsonwebtoken';
-import {JobModel} from '../../Models/index.Models.mjs'; // Adjust the import path if needed
- // Load .env variables
-
-
+// GetJobsByEmail.js
+import { JobModel } from '../../Models/index.Models.mjs'; // Adjust the import path if needed
+import { AuthenticateOrganizationUserJwt } from '../../Middleware/index.MiddleWare.mjs'; // Import the middleware
 
 const GetJobsByEmail = async (req, res) => {
   try {
-    const token = req.headers.authorization.split(' ')[1];
+    // Extract email from req.user set by the middleware
+    const email = req.user.email; 
 
-    const decoded = jwt.verify(token, secretKey);
-    const email = decoded.email; // Extract email from JWT payload
-
-    const jobs = await JobModel.find({ postedBy: email }); // Query jobs by email
+    // Query jobs by email
+    const jobs = await JobModel.find({ postedBy: email });
     res.status(200).json({ jobs });
   } catch (error) {
     console.error('Error fetching jobs:', error.message);

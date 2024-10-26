@@ -7,6 +7,7 @@ import {OtpModels,UserData,OrganizationUserData} from "../../Models/index.Models
 // Function to send OTP
 export const SendOtp = async (req, res) => {
     const { email } = req.body;
+   
     const otp = Math.floor(100000 + Math.random() * 900000).toString(); // Generate a 6-digit OTP
 
     // Save OTP to the database with an expiration time
