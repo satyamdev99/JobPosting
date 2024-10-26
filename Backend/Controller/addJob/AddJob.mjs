@@ -2,7 +2,7 @@ import { JobModel } from '../../Models/index.Models.mjs';
 
 const AddJobData = async (req, res) => {
   try {
-    console.log('Incoming Job Data:', req.body); // Log the received data
+    // console.log('Incoming Job Data:', req.body); // Log the received data
 
     const {
       title, description, employmentType, experience, role, skills,
