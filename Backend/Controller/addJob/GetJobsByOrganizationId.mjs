@@ -1,14 +1,13 @@
-// GetJobsByEmail.js
+// GetJobsBy.js
 import { JobModel } from '../../Models/index.Models.mjs'; // Adjust the import path if needed
 import { AuthenticateOrganizationUserJwt } from '../../Middleware/index.MiddleWare.mjs'; // Import the middleware
 
-const GetJobsByEmail = async (req, res) => {
+const GetJobsByOrganizationId = async (req, res) => {
   try {
-    // Extract email from req.user set by the middleware
-    const email = req.user.email; 
+    const organizationId = req.user.userId; // Extracting organizationId from JWT
 
-    // Query jobs by email
-    const jobs = await JobModel.find({ postedBy: email });
+    const jobs = await JobModel.find({ organizationId }); // Querying by organizationId
+    
     res.status(200).json({ jobs });
   } catch (error) {
     console.error('Error fetching jobs:', error.message);
@@ -16,4 +15,4 @@ const GetJobsByEmail = async (req, res) => {
   }
 };
 
-export default GetJobsByEmail;
+export default GetJobsByOrganizationId;

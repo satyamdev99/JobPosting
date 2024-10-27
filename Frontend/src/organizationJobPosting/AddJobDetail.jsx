@@ -1,4 +1,3 @@
-// AddJob.js
 import React, { useState } from 'react';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import JobList from './ShowJobDetail';
@@ -43,9 +42,20 @@ const AddJob = () => {
         alert('Job added successfully!');
         setShowModal(false);
         setJobData({
-          // ... existing reset fields ...
-        });
+          title: '',
+          description: '',
+          employmentType: 'Full-time',
+          experience: '1',
+          role: '',
+          skills: '',
+          requirements: '',
+          location: '',
+          validTill: '',
+          salary: '',
+          status: 'Active',
+        }); // Reset fields
         // Consider adding a function to refresh the job list here
+        window.location.reload();
       } else {
         alert(data.message || 'Error adding job');
       }
@@ -108,6 +118,9 @@ const AddJob = () => {
                   >
                     <option value="Full-time">Full-time</option>
                     <option value="Part-time">Part-time</option>
+                    <option value="Contract">Contract</option>
+                    <option value="Internship">Internship</option>
+                    <option value="Temporary">Temporary</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
@@ -218,7 +231,7 @@ const AddJob = () => {
           </Form>
         </Modal.Body>
       </Modal>
-      <JobList/>
+      <JobList />
     </div>
   );
 };

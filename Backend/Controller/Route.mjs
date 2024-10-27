@@ -12,7 +12,9 @@ import {
     OrganizationLogin, 
     OrganizationResetPassword, 
     AddJob, 
-    GetJobsByEmail 
+    GetJobsByOrganizationId,
+    DeleteJob,
+    EditJob
 } from './index.Controller.mjs';
 import cors from 'cors';
 
@@ -41,7 +43,12 @@ app.post("/organization-login", OrganizationLogin);
 app.post("/organization-reset-password",OrganizationResetPassword);
 
 app.post("/add-job",AuthenticateOrganizationUserJwt, AddJob); // Protect this route
-app.get('/get-jobs-by-email',AuthenticateOrganizationUserJwt,GetJobsByEmail); // Protect this route
+app.get("/get-jobs-by-organizationId",AuthenticateOrganizationUserJwt,GetJobsByOrganizationId); // Protect this route
+
+app.delete('/delete-job/:jobId',AuthenticateOrganizationUserJwt,DeleteJob);
+app.put('/update-job/:jobId',AuthenticateOrganizationUserJwt,EditJob);
+
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;

@@ -16,7 +16,7 @@ const JobSchema = new mongoose.Schema({
   },
   experience: {
     type: Number,
-    required: true, // Specify experience in years
+    required: true,
     min: 0,
   },
   role: {
@@ -24,7 +24,7 @@ const JobSchema = new mongoose.Schema({
     required: true,
   },
   skills: {
-    type: String, // Consider using an array of strings if you need multiple skills
+    type: String,
     required: true,
   },
   requirements: {
@@ -49,11 +49,14 @@ const JobSchema = new mongoose.Schema({
     enum: ['Active', 'Inactive'],
     default: 'Active',
   },
+  organizationId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
 }, {
-  timestamps: true, // Automatically adds createdAt and updatedAt fields
+  timestamps: true,
 });
 
-// Create the Job model
 const JobModel = mongoose.model('Job', JobSchema);
 
 export default JobModel;

@@ -2,7 +2,6 @@ import { JobModel } from '../../Models/index.Models.mjs';
 
 const AddJobData = async (req, res) => {
   try {
-    console.log('Incoming Job Data:', req.body); // Log the received data
 
     const {
       title, description, employmentType, experience, role, skills,
@@ -18,6 +17,7 @@ const AddJobData = async (req, res) => {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
+    // Create a new job object, including the organization ID from the JWT
     const newJob = new JobModel({
       title,
       description,
@@ -30,6 +30,7 @@ const AddJobData = async (req, res) => {
       validTill: new Date(validTill),  // Convert to a Date object
       salary: parseFloat(salary),  // Ensure salary is saved as a float
       status,
+      organizationId: req.user.userId, // Add organization ID from the decoded JWT
     });
 
     await newJob.save();
