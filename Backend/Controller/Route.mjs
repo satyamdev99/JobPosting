@@ -16,12 +16,15 @@ import {
     DeleteJob,
     EditJob,
     FetchActiveJobs,
-    ApplyForJob
+    ApplyForJob,
+    uploadResume,
+    
     
 } from './index.Controller.mjs';
 import cors from 'cors';
 
-import { AuthenticateUserJwt,AuthenticateOrganizationUserJwt } from '../Middleware/index.MiddleWare.mjs';
+
+import { AuthenticateUserJwt,AuthenticateOrganizationUserJwt,upload } from '../Middleware/index.MiddleWare.mjs';
 
 dotenv.config();
 
@@ -54,6 +57,10 @@ app.put('/update-job/:jobId',AuthenticateOrganizationUserJwt,EditJob);
 app.get("/get-active-jobs",AuthenticateUserJwt,FetchActiveJobs);
 
 app.post("/apply-for-job",AuthenticateUserJwt,ApplyForJob);
+
+// Resume Upload Route
+app.post("/upload-resume", AuthenticateUserJwt, upload.single('resume'), uploadResume);
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;

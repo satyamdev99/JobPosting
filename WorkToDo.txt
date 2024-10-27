@@ -1,8 +1,6 @@
 //Features to work on 
 
-1.when click on apply button in Job Detail page check if user is logged in if not 
-then redirect to login page and after login redirect to this page again to apply
+1.Make upload resume page inside show all active jobs page  and when user click on
+ apply button in job detail page navigate to upload resume page 
 
-2.when click on apply button check if user has already applied for this job or not
-if already applied then show message already applied and dont allow to apply again
 

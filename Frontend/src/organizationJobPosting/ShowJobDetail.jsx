@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { Card, Container, Row, Col, Form, Button, Modal, Dropdown } from 'react-bootstrap';
 import { FaEllipsisV } from 'react-icons/fa'; // Three-dot icon
 import { MdLocationOn, MdWork, MdDateRange } from 'react-icons/md'; // Icons for fields
@@ -6,11 +8,15 @@ import { BsBriefcaseFill, BsCalendarDate } from 'react-icons/bs'; // More Icons 
 import '../css/JobList.css'; // Additional CSS for styling
 
 const JobList = () => {
+
+  const navigate = useNavigate();
   const [jobs, setJobs] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [currentJob, setCurrentJob] = useState(null);
+  
+
 
   // Employment type options
   const employmentTypeOptions = ['Full-time', 'Part-time', 'Contract', 'Internship'];
@@ -38,7 +44,8 @@ const JobList = () => {
         setJobs(data.jobs);
         setFilteredJobs(data.jobs);
       } else {
-        alert('Failed to fetch jobs.');
+        alert('Failed to fetch jobs. Please Sign to see Job list and To Add job');
+        navigate("/auth/organization-login");
       }
     } catch (error) {
       console.error('Error fetching jobs:', error);

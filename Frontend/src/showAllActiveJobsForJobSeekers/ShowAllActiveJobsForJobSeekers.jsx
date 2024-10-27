@@ -18,6 +18,8 @@ import {
 } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { FaMapMarkerAlt, FaBriefcase, FaClock } from "react-icons/fa";
+import ResumeUpload from "../resumeUpload/ResumeUpload"; // Import ResumeUpload component
+
 
 const ShowAllActiveJobsForJobSeekers = () => {
   const navigate = useNavigate();
@@ -91,6 +93,7 @@ const ShowAllActiveJobsForJobSeekers = () => {
   
       if (response.ok) {
         alert("Applied successfully!");
+        navigate(`/job-seekers/upload-resume?jobId=${jobId}`);
       } else {
         alert(result.message || "Failed to apply for the job."); // Show the backend message or fallback error
       }
@@ -304,6 +307,9 @@ const ShowAllActiveJobsForJobSeekers = () => {
                     day: "numeric",
                   })}
                 </Typography>
+
+                <ResumeUpload jobId={selectedJob._id} /> {/* ResumeUpload Component */}
+
 
                 <Stack direction="row" spacing={2} justifyContent="flex-end">
                   <Button variant="outlined" onClick={handleCloseModal}>
