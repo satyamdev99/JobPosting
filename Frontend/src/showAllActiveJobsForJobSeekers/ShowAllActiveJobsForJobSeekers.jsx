@@ -30,9 +30,13 @@ const ShowAllActiveJobsForJobSeekers = () => {
   useEffect(() => {
     const fetchActiveJobs = async () => {
       try {
+        const token = localStorage.getItem("token");
         const response = await fetch("http://localhost:3000/get-active-jobs", {
           method: "GET",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // Move this inside the headers object
+          },
         });
 
         if (response.ok) {
@@ -70,11 +74,32 @@ const ShowAllActiveJobsForJobSeekers = () => {
     if (!token) {
       alert("Please login to apply for this job");
       navigate("/auth/applicant-login");
+      return; // Stop further execution
     }
-    else{
+  
+    try {
+      const response = await fetch("http://localhost:3000/apply-for-job", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Include token in Authorization header
+        },
+        body: JSON.stringify({ jobId })
+      });
+  
+      const result = await response.json(); // Parse the response JSON
+  
+      if (response.ok) {
         alert("Applied successfully!");
+      } else {
+        alert(result.message || "Failed to apply for the job."); // Show the backend message or fallback error
+      }
+    } catch (error) {
+      console.error("Error applying for job:", error);
+      alert("An unexpected error occurred. Please try again later.");
     }
   };
+  
 
   return (
     <Box
@@ -208,7 +233,7 @@ const ShowAllActiveJobsForJobSeekers = () => {
               variant="body1"
               sx={{ color: "gray", textAlign: "center", width: "100%" }}
             >
-              No active jobs available at the moment.
+              Please Sign in to see the jobs list.....
             </Typography>
           )}
         </Grid>
