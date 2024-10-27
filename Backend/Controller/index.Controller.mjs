@@ -5,10 +5,8 @@ import { OrganizationSignup, OrganizationLogin } from "./auth/OrganizationSignup
 import AddJob from "../Controller/addJob/AddJob.mjs";
 import GetJobsByOrganizationId from "../Controller/addJob/GetJobsByOrganizationId.mjs"
 import DeleteJob from "../Controller/deleteJob/DeleteJob.mjs"
-
-
 import EditJob from "../Controller/editJob/EditJob.mjs" 
+import FetchActiveJobs from "../Controller/fetchActiveJobs/FetchActiveJobs.mjs"
 
 
-
-export {Signup,Login, SendOtp, VerifyOtp, ResetPassword, OrganizationSignup, OrganizationLogin, OrganizationResetPassword, AddJob, GetJobsByOrganizationId, DeleteJob, EditJob};
+export {Signup,Login, SendOtp, VerifyOtp, ResetPassword, OrganizationSignup, OrganizationLogin, OrganizationResetPassword, AddJob, GetJobsByOrganizationId, DeleteJob, EditJob, FetchActiveJobs};

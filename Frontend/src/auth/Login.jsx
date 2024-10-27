@@ -45,7 +45,8 @@ const Login = () => {
 
       // Store the token (you can also use localStorage or context for auth)
       localStorage.setItem('token', data.token);
-      alert("jwt token saved in database");
+      navigate("/job-seekers/show-all-active-jobs");
+      alert("Login successful Now you can apply for jobs");
       // navigate('/dashboard'); // Navigate to dashboard after successful login
 
     } catch (error) {

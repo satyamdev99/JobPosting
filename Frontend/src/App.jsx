@@ -8,6 +8,7 @@ import Signup from "../src/organizationAuth/Signup"
 import OrganizationLogin from './organizationAuth/Login';
 import OrganizationResetPassword from './organizationAuth/OrganizationResetPassword';
 import AddJob from './organizationJobPosting/AddJobDetail';
+import ShowAllActiveJobsForJobSeekers from './showAllActiveJobsForJobSeekers/ShowAllActiveJobsForJobSeekers';
 
 function App() {
   return (
@@ -20,9 +21,9 @@ function App() {
       <Route path="/auth/organization-login" element={<OrganizationLogin />} />
       <Route path="/auth/organization-reset-password" element={<OrganizationResetPassword />} />
 
-    
-
       <Route path="/admin/add-job" element={<AddJob />} />
+
+      <Route path="/job-seekers/show-all-active-jobs" element={<ShowAllActiveJobsForJobSeekers />} />
     </Routes>
   );
 }

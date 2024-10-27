@@ -14,7 +14,8 @@ import {
     AddJob, 
     GetJobsByOrganizationId,
     DeleteJob,
-    EditJob
+    EditJob,
+    FetchActiveJobs
 } from './index.Controller.mjs';
 import cors from 'cors';
 
@@ -48,7 +49,7 @@ app.get("/get-jobs-by-organizationId",AuthenticateOrganizationUserJwt,GetJobsByO
 app.delete('/delete-job/:jobId',AuthenticateOrganizationUserJwt,DeleteJob);
 app.put('/update-job/:jobId',AuthenticateOrganizationUserJwt,EditJob);
 
-
+app.get("/get-active-jobs",FetchActiveJobs);
 
 // Start the server
 const PORT = process.env.PORT || 3000;

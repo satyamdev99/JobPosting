@@ -15,7 +15,7 @@ const LandingPage = () => {
             AID-IPH
           </Typography>
           <Box>
-            <Button color="inherit" sx={{ color: 'white' }}>For Job Seekers</Button>
+            <Button onClick={() => navigate('/job-seekers/show-all-active-jobs')} color="inherit" sx={{ color: 'white' }}>For Job Seekers</Button>
             <Button
               color="inherit"
               variant="outlined"
