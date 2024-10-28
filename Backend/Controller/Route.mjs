@@ -16,8 +16,7 @@ import {
     DeleteJob,
     EditJob,
     FetchActiveJobs,
-    ApplyForJob,
-    uploadResume,
+    uploadResumeAndApply,
     
     
 } from './index.Controller.mjs';
@@ -56,10 +55,9 @@ app.put('/update-job/:jobId',AuthenticateOrganizationUserJwt,EditJob);
 
 app.get("/get-active-jobs",AuthenticateUserJwt,FetchActiveJobs);
 
-app.post("/apply-for-job",AuthenticateUserJwt,ApplyForJob);
 
 // Resume Upload Route
-app.post("/upload-resume", AuthenticateUserJwt, upload.single('resume'), uploadResume);
+app.post("/upload-resume", AuthenticateUserJwt, upload.single('resume'), uploadResumeAndApply);
 
 
 // Start the server

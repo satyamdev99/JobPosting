@@ -24,7 +24,6 @@ function App() {
       <Route path="/admin/add-job" element={<AddJob />} />
 
       <Route path="/job-seekers/show-all-active-jobs" element={<ShowAllActiveJobsForJobSeekers />} />
-      <Route path="/job-seekers/upload-resume" element={<ResumeUpload />} />
     </Routes>
   );
 }

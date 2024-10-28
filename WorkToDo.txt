@@ -1,6 +1,7 @@
 //Features to work on 
 
-1.Make upload resume page inside show all active jobs page  and when user click on
- apply button in job detail page navigate to upload resume page 
 
 
+2.in organization I need feature like it will show all applied user for the job which 
+organization has posted and when organization will click on Name of applied user 
+it will open that user Resume....

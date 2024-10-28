@@ -71,37 +71,7 @@ const ShowAllActiveJobsForJobSeekers = () => {
     setSelectedJob(null); // Clear the selected job
   };
 
-  const handleJobApply = async (jobId) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      alert("Please login to apply for this job");
-      navigate("/auth/applicant-login");
-      return; // Stop further execution
-    }
-  
-    try {
-      const response = await fetch("http://localhost:3000/apply-for-job", {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Include token in Authorization header
-        },
-        body: JSON.stringify({ jobId })
-      });
-  
-      const result = await response.json(); // Parse the response JSON
-  
-      if (response.ok) {
-        alert("Applied successfully!");
-        navigate(`/job-seekers/upload-resume?jobId=${jobId}`);
-      } else {
-        alert(result.message || "Failed to apply for the job."); // Show the backend message or fallback error
-      }
-    } catch (error) {
-      console.error("Error applying for job:", error);
-      alert("An unexpected error occurred. Please try again later.");
-    }
-  };
+
   
 
   return (
@@ -309,20 +279,10 @@ const ShowAllActiveJobsForJobSeekers = () => {
                 </Typography>
 
                 <ResumeUpload jobId={selectedJob._id} /> {/* ResumeUpload Component */}
+                <br/>
 
 
-                <Stack direction="row" spacing={2} justifyContent="flex-end">
-                  <Button variant="outlined" onClick={handleCloseModal}>
-                    Cancel
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => handleJobApply(selectedJob._id)}
-                  >
-                    Apply
-                  </Button>
-                </Stack>
+                
               </>
             )}
           </Box>

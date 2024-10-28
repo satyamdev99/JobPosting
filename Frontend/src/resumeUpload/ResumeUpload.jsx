@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-const ResumeUpload = () => {
+const ResumeUpload = ({jobId}) => {
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
-  const location = useLocation();
 
-  // Extract jobId from query parameters
-  const queryParams = new URLSearchParams(location.search);
-  const jobId = queryParams.get("jobId");
+
+
+  console.log("jobId",jobId);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -16,6 +15,13 @@ const ResumeUpload = () => {
 
   const handleUpload = async (e) => {
     e.preventDefault();
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please login to apply for this job");
+      navigate("/auth/applicant-login");
+      return;
+    }
 
     if (!file) {
       alert("Please select a file to upload.");
@@ -51,9 +57,10 @@ const ResumeUpload = () => {
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
       <h2>Upload Your Resume</h2>
-      <form onSubmit={handleUpload}>
+      <br/>
+      <form>
         <input type="file" accept=".pdf,.doc,.docx" onChange={handleFileChange} />
-        <button type="submit">Upload</button>
+        <button className="btn btn-success my-5" type="submit" onClick={handleUpload}>Upload And Apply</button>
       </form>
     </div>
   );
