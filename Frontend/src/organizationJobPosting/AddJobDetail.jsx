@@ -66,7 +66,7 @@ const AddJob = () => {
   };
 
   return (
-    <div className="text-center mt-5">
+    <div className="text-center mt-5 bg-black">
       <Button
         style={{ backgroundColor: 'white', color: 'black' }}
         onMouseEnter={(e) => (e.target.style.backgroundColor = '#f0f0f0')}

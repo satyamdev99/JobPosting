@@ -103,7 +103,7 @@ const OrganizationResetPassword = () => {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+    <Container className="d-flex justify-content-center align-items-center bg-black" style={{ minHeight: '100vh' }}>
       <Row className="w-100">
         <Col md={6} lg={4} className="mx-auto">
           <Card className="shadow-sm">

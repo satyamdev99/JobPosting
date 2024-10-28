@@ -179,7 +179,7 @@ const JobList = () => {
   }
 
   return (
-    <Container className="mt-5">
+    <Container className="mt-5 bg-black">
       <Form.Group className="mb-4">
         <Form.Control
           type="text"

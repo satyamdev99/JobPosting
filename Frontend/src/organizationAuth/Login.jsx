@@ -44,7 +44,7 @@ const OrganizationLogin = () => {
 
       // Store the token (you can also use localStorage or context for auth)
       localStorage.setItem('token', data.token);
-      alert("JWT token saved in database");
+      alert("Login successful");
       navigate("/admin/add-job"); // Navigate to dashboard after successful login
 
     } catch (error) {
@@ -53,7 +53,7 @@ const OrganizationLogin = () => {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh', backgroundColor: '#f0f4f8' }}>
+    <Container className="d-flex justify-content-center align-items-center bg-black" style={{ minHeight: '100vh', backgroundColor: '#f0f4f8' }}>
       <Row className="w-100">
         <Col md={6} lg={4} className="mx-auto">
           <Card className="shadow-sm" style={{ backgroundColor: '#ffffff', borderRadius: '10px' }}>
