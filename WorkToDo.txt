@@ -2,6 +2,6 @@
 
 
 
-2.in organization I need feature like it will show all applied user for the job which 
+2.in organization add-job page on all job section in three dot after edit,delete,showAppliedUsers menu I need feature like it will show all applied user for this job which 
 organization has posted and when organization will click on Name of applied user 
 it will open that user Resume....

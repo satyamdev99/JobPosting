@@ -9,7 +9,7 @@ import OrganizationLogin from './organizationAuth/Login';
 import OrganizationResetPassword from './organizationAuth/OrganizationResetPassword';
 import AddJob from './organizationJobPosting/AddJobDetail';
 import ShowAllActiveJobsForJobSeekers from './showAllActiveJobsForJobSeekers/ShowAllActiveJobsForJobSeekers';
-import ResumeUpload from './resumeUpload/ResumeUpload';
+import ShowAllAppliedUsersForSpecificJob from './showAllAppliedUsersForSpecificJob/ShowAllAppliedUsersForSpecificJob';
 function App() {
   return (
     <Routes>
@@ -24,6 +24,7 @@ function App() {
       <Route path="/admin/add-job" element={<AddJob />} />
 
       <Route path="/job-seekers/show-all-active-jobs" element={<ShowAllActiveJobsForJobSeekers />} />
+      <Route path="/organization/show-all-applied-users/:jobId" element={<ShowAllAppliedUsersForSpecificJob />} />
     </Routes>
   );
 }

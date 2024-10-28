@@ -8,5 +8,6 @@ import DeleteJob from "../Controller/deleteJob/DeleteJob.mjs"
 import EditJob from "../Controller/editJob/EditJob.mjs" 
 import FetchActiveJobs from "../Controller/fetchActiveJobs/FetchActiveJobs.mjs"
 import uploadResumeAndApply from "../Controller/resumeUploadAndApply/ResumeUploadAndApply.mjs"
+import getApplicationsByJobId from "../Controller/fetchAllUsersForSpecificJobs/FetchAllUsersForSpecificJobs.mjs"
 
-export {Signup,Login, SendOtp, VerifyOtp, ResetPassword, OrganizationSignup, OrganizationLogin, OrganizationResetPassword, AddJob, GetJobsByOrganizationId, DeleteJob, EditJob, FetchActiveJobs, uploadResumeAndApply};
+export {Signup,Login, SendOtp, VerifyOtp, ResetPassword, OrganizationSignup, OrganizationLogin, OrganizationResetPassword, AddJob, GetJobsByOrganizationId, DeleteJob, EditJob, FetchActiveJobs, uploadResumeAndApply, getApplicationsByJobId};

@@ -173,6 +173,11 @@ const JobList = () => {
     return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
   };
 
+  const handleShowAllUsersAppliedForThisJob = (jobId) => {
+    console.log("jobId",jobId);
+    navigate(`/organization/show-all-applied-users/${jobId}`);
+  }
+
   return (
     <Container className="mt-5">
       <Form.Group className="mb-4">
@@ -198,6 +203,7 @@ const JobList = () => {
                     <Dropdown.Menu>
                       <Dropdown.Item onClick={() => handleShowModal(job)}>Edit</Dropdown.Item>
                       <Dropdown.Item onClick={() => handleDelete(job._id)}>Delete</Dropdown.Item>
+                      <Dropdown.Item onClick={() => handleShowAllUsersAppliedForThisJob(job._id)}>Show Applied Users</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </div>

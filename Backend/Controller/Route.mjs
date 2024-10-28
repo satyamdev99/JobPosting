@@ -1,6 +1,10 @@
 // index.js (or server.js)
 import express from 'express';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+
 import { connectDB } from "../Models/index.Models.mjs";
 import { 
     Signup, 
@@ -17,8 +21,7 @@ import {
     EditJob,
     FetchActiveJobs,
     uploadResumeAndApply,
-    
-    
+    getApplicationsByJobId
 } from './index.Controller.mjs';
 import cors from 'cors';
 
@@ -31,6 +34,13 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+
+// Get the current directory name
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Connect to MongoDB
 connectDB();
@@ -49,15 +59,16 @@ app.post("/organization-reset-password",OrganizationResetPassword);
 
 app.post("/add-job",AuthenticateOrganizationUserJwt, AddJob); // Protect this route
 app.get("/get-jobs-by-organizationId",AuthenticateOrganizationUserJwt,GetJobsByOrganizationId); // Protect this route
+app.get("/get-active-jobs",AuthenticateUserJwt,FetchActiveJobs);
 
 app.delete('/delete-job/:jobId',AuthenticateOrganizationUserJwt,DeleteJob);
 app.put('/update-job/:jobId',AuthenticateOrganizationUserJwt,EditJob);
 
-app.get("/get-active-jobs",AuthenticateUserJwt,FetchActiveJobs);
-
 
 // Resume Upload Route
 app.post("/upload-resume", AuthenticateUserJwt, upload.single('resume'), uploadResumeAndApply);
+
+app.get("/get-applications-by-job-id/:jobId",AuthenticateOrganizationUserJwt,getApplicationsByJobId);
 
 
 // Start the server
