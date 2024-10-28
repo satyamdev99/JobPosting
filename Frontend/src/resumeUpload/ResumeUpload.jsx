@@ -42,7 +42,7 @@ const ResumeUpload = ({jobId}) => {
       });
 
       if (response.ok) {
-        alert("Resume uploaded successfully!");
+        alert("Resume uploaded successfully! Thanks for applying");
         navigate("/job-seekers/show-all-active-jobs"); // Redirect to the jobs page or a success page
       } else {
         const result = await response.json();

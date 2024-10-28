@@ -1,7 +1,3 @@
 //Features to work on 
 
-
-
-2.in organization add-job page on all job section in three dot after edit,delete,showAppliedUsers menu I need feature like it will show all applied user for this job which 
-organization has posted and when organization will click on Name of applied user 
-it will open that user Resume....
+1.Make Delete applied user from job functionlity to work...

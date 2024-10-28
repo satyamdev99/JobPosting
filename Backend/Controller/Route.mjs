@@ -21,7 +21,8 @@ import {
     EditJob,
     FetchActiveJobs,
     uploadResumeAndApply,
-    getApplicationsByJobId
+    getApplicationsByJobId,
+    deleteUserFromAppliedJob
 } from './index.Controller.mjs';
 import cors from 'cors';
 
@@ -69,6 +70,10 @@ app.put('/update-job/:jobId',AuthenticateOrganizationUserJwt,EditJob);
 app.post("/upload-resume", AuthenticateUserJwt, upload.single('resume'), uploadResumeAndApply);
 
 app.get("/get-applications-by-job-id/:jobId",AuthenticateOrganizationUserJwt,getApplicationsByJobId);
+
+// In your Express server routes
+app.delete('/delete-application/:applicationId', AuthenticateOrganizationUserJwt, deleteUserFromAppliedJob);
+
 
 
 // Start the server
