@@ -46,5 +46,7 @@ const AuthenticateOrganizationUserJwt = (req, res, next) => {
     });
 };
 
+
+
 // Example usage: exporting the middleware and token generation function
 export { AuthenticateUserJwt, GenerateUserToken,GenerateOrganizationUserToken,AuthenticateOrganizationUserJwt };

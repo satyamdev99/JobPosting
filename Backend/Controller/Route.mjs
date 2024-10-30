@@ -3,78 +3,80 @@ import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
-
-import { connectDB } from "../Models/index.Models.mjs";
-import { 
-    Signup, 
-    Login, 
-    SendOtp, 
-    VerifyOtp, 
-    ResetPassword, 
-    OrganizationSignup, 
-    OrganizationLogin, 
-    OrganizationResetPassword, 
-    AddJob, 
-    GetJobsByOrganizationId,
-    DeleteJob,
-    EditJob,
-    FetchActiveJobs,
-    uploadResumeAndApply,
-    getApplicationsByJobId,
-    deleteUserFromAppliedJob
-} from './index.Controller.mjs';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import cors from 'cors';
+import { connectDB } from '../Models/index.Models.mjs';
+import { 
+    Signup, Login, SendOtp, VerifyOtp, ResetPassword, 
+    OrganizationSignup, OrganizationLogin, OrganizationResetPassword, 
+    AddJob, GetJobsByOrganizationId, DeleteJob, EditJob, 
+    FetchActiveJobs, uploadResumeAndApply, getApplicationsByJobId, 
+    deleteUserFromAppliedJob 
+} from './index.Controller.mjs';
+import { AuthenticateUserJwt, AuthenticateOrganizationUserJwt, upload } from '../Middleware/index.MiddleWare.mjs';
 
-
-import { AuthenticateUserJwt,AuthenticateOrganizationUserJwt,upload } from '../Middleware/index.MiddleWare.mjs';
-
+// Load environment variables
 dotenv.config();
 
+// Initialize Express app
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+// Security Middlewares
+app.use(helmet()); // Set security headers
 
+// Configure CORS to allow frontend access
+app.use(cors({
+  origin: 'http://localhost:5173', // Allow requests from frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+  credentials: true, // Allow cookies or authorization headers
+}));
+
+// Set up a rate limiter for all requests
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes window
+  max: 100, // Max 100 requests per IP in the window
+  message: 'Too many requests, please try again later.',
+});
+app.use(limiter); // Apply the rate limiter globally
+
+app.use(express.json()); // Parse incoming JSON requests
 
 // Get the current directory name
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Serve static files for uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Connect to MongoDB
 connectDB();
 
-// Example routes
-app.post("/signup", Signup); // Generate token after successful signup in the Signup controller
-app.post("/login", Login); // Make sure Login generates a token
+// Routes for User Management
+app.post("/signup", Signup); // Generate token after signup
+app.post("/login", Login); // Ensure login generates a token
 app.post('/send-otp', SendOtp);
 app.post('/verify-otp', VerifyOtp);
 app.post('/reset-password', ResetPassword);
 
-// Organization routes
+// Organization Routes
 app.post("/organization-signup", OrganizationSignup);
 app.post("/organization-login", OrganizationLogin);
-app.post("/organization-reset-password",OrganizationResetPassword);
+app.post("/organization-reset-password", OrganizationResetPassword);
 
-app.post("/add-job",AuthenticateOrganizationUserJwt, AddJob); // Protect this route
-app.get("/get-jobs-by-organizationId",AuthenticateOrganizationUserJwt,GetJobsByOrganizationId); // Protect this route
-app.get("/get-active-jobs",AuthenticateUserJwt,FetchActiveJobs);
+// Job Management Routes (Protected)
+app.post("/add-job", AuthenticateOrganizationUserJwt, AddJob);
+app.get("/get-jobs-by-organizationId", AuthenticateOrganizationUserJwt, GetJobsByOrganizationId);
+app.get("/get-active-jobs", AuthenticateUserJwt, FetchActiveJobs);
+app.delete('/delete-job/:jobId', AuthenticateOrganizationUserJwt, DeleteJob);
+app.put('/update-job/:jobId', AuthenticateOrganizationUserJwt, EditJob);
 
-app.delete('/delete-job/:jobId',AuthenticateOrganizationUserJwt,DeleteJob);
-app.put('/update-job/:jobId',AuthenticateOrganizationUserJwt,EditJob);
-
-
-// Resume Upload Route
+// Resume Upload Route (Protected)
 app.post("/upload-resume", AuthenticateUserJwt, upload.single('resume'), uploadResumeAndApply);
 
-app.get("/get-applications-by-job-id/:jobId",AuthenticateOrganizationUserJwt,getApplicationsByJobId);
-
-// In your Express server routes
+// Application Routes (Protected)
+app.get("/get-applications-by-job-id/:jobId", AuthenticateOrganizationUserJwt, getApplicationsByJobId);
 app.delete('/delete-application/:applicationId', AuthenticateOrganizationUserJwt, deleteUserFromAppliedJob);
-
-
 
 // Start the server
 const PORT = process.env.PORT || 3000;
