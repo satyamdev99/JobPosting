@@ -16,35 +16,34 @@ const AuthenticateUserJwt = (req, res, next) => {
     const token = req.headers['authorization']?.split(' ')[1]; // Extract token from Bearer scheme
 
     if (!token) {
-        return res.sendStatus(403); // Forbidden if no token
+        return res.status(401); // Unauthorized if no token
     }
 
-    jwt.verify(token, jwtSecret, (err, user) => {
-        if (err) {
-            return res.status(400).json({ message: 'Invalid token' });
-        }
-
+    try {
+        const user = jwt.verify(token, jwtSecret);
         req.user = user; // Attach user info to request
         next(); // Proceed to the next middleware or route handler
-    });
+    } catch (err) {
+        return res.status(400).json({ message: 'Invalid token' });
+    }
 };
-// Middleware to authenticate JWT
+
+// Middleware to authenticate JWT for organization users
 const AuthenticateOrganizationUserJwt = (req, res, next) => {
     const token = req.headers['authorization']?.split(' ')[1]; // Extract token from Bearer scheme
 
     if (!token) {
-        return res.sendStatus(403); // Forbidden if no token
+        return res.status(401); // Unauthorized if no token
     }
 
-    jwt.verify(token, OrganizationUserJwtSecret, (err, user) => {
-        if (err) {
-            return res.status(400).json({ message: 'Invalid token' });
-        }
-
+    try {
+        const user = jwt.verify(token, OrganizationUserJwtSecret);
         req.user = user; // Attach user info to request
         next(); // Proceed to the next middleware or route handler
-    });
+    } catch (err) {
+        return res.status(400).json({ message: 'Invalid token' });
+    }
 };
 
 // Example usage: exporting the middleware and token generation function
-export { AuthenticateUserJwt, GenerateUserToken,GenerateOrganizationUserToken,AuthenticateOrganizationUserJwt };
+export { AuthenticateUserJwt, GenerateUserToken, GenerateOrganizationUserToken, AuthenticateOrganizationUserJwt };

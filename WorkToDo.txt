@@ -1,1 +1,2 @@
-
+every theing is done only theing that are left is to add the JWT_SECRET, JWT_EXPIRE, 
+MongoDb url and Port and in Otp.mjs file you have to change the email and password of the gmail account add all the things in the .env file....
